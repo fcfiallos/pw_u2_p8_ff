@@ -1,11 +1,11 @@
 <template>
   <div class="contanier">
-    <h1>Contador</h1>
+    <h1>{{ title }}</h1>
     <!--eleemnto html sub exponencial-->
     <p>{{ this.numero }} <sup>2</sup>= {{ calCuadrado }}</p>
     <div>
       <button v-on:click="incrementar()">+1</button>
-      <button v-on:click="decrementar()">-1</button>
+      <button @click="decrementar()">-1</button>
     </div>
     <!--<p>{{ this.numero }} <sup>2</sup>= {{calCuadrado}}</p>
     <p>{{ this.numero }} <sup>2</sup>= {{calCuadrado}}</p>
@@ -25,12 +25,30 @@
 
 <script>
 export default {
-  /**esas opciones openvia son como metodos*/
+  /**esas opciones openvia son como metodos
+  props: ["title", "value"],*/
+  props:{
+    title:String,
+    value:{
+      type:Number,
+      required:false, /**significa que es obsolutamente necesario */
+      default:100,
+      validator(value) {
+        return value > 0;
+      },
+    },
+    p1:Boolean,
+    p2:Array,
+    p3:Object,
+    p4:Function,
+    p5:Date,
+    p6:Symbol,/**Cuando se quieren enviar tokens */
+  },
   data() {
     /*propiedades reactivas */
     return {
-      numero: 5,
-      texto: "Fátima Fiallos",
+      numero: this.value,
+      titulo: "Contador",
       activo: true,
       usuario: {
         nombre: "Fátima",
@@ -58,13 +76,16 @@ export default {
       return this.numero * this.numero;
     },
   },
+  /**Ciclo de vida */
+  created(){
+    if(this.value > 0){
+      console.log('Es correcto');
+    }else{
+      throw new Error('Error el valor no puede ser menor que cero')
+    }
+  }
 };
 </script>
 
 <style>
-.contanier {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 </style>
