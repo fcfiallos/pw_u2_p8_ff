@@ -1,8 +1,5 @@
 <template>
   <div class="container">
-    <div v-show="mostrar">
-      <h1>Estudiante Guardado</h1>
-    </div>
     <label for="id_nombre">Nombre:</label>
     <input v-model="nuevoNombre" id="id_nombre" type="text" />
     <label for="id_apellido">Apellido:</label>
@@ -14,13 +11,31 @@
     <label for="id_direccion">Dirección:</label>
     <input v-model="nuevoDireccion" id="id_direccion" type="text" />
     <button v-on:click="agregarEstudiante()">Agregar</button>
-    <ul>
-      <!--El error es porque pide un identificador (ej.: cedula)-->
-      <li v-for="{ nombre, apellido, cedula, telefono, direccion } in lista" :key="nombre">
-        Nombre: {{ nombre }} - Apellido: {{ apellido }} - Cedula: {{ cedula }} -
-        Telefono: {{ telefono }} - Direccion: {{ direccion }}
-      </li>
-    </ul>
+    <table>
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Cédula</th>
+          <th>Teléfono</th>
+          <th>Dirección</th>
+          <th>Acción</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          v-for="{ nombre, apellido, cedula, telefono, direccion } in lista"
+          :key="nombre"
+        >
+          <td>{{ nombre }}</td>
+          <td>{{ apellido }}</td>
+          <td>{{ cedula }}</td>
+          <td>{{ telefono }}</td>
+          <td>{{ direccion }}</td>
+          <td><button>Ver</button></td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
@@ -84,7 +99,6 @@ export default {
           direccion: "Calle 104",
         },
       ],
-      mostrar: false,
     };
   },
   methods: {
@@ -97,12 +111,6 @@ export default {
         telefono: this.nuevoTelefono,
         direccion: this.nuevoDireccion,
       }); //agrega al final
-      this.mostrar = true;
-      this.nombre = null;
-
-      setTimeout(()=>{
-        this.mostrar= false;
-      },3000); //milisegundos
     },
   },
 };
@@ -114,17 +122,17 @@ export default {
   border: 2px solid #00a050;
   border-radius: 12px;
   max-width: 80%; /**maximo de display */
-  margin: 50px auto; 
+  margin: 50px auto;
   padding: 30px 40px;
 }
 
-label{
+label {
   display: block;
   color: #333;
   text-align: left;
 }
 
-input{
+input {
   background: #fff;
   color: #00a050;
   width: 100%;
@@ -133,27 +141,38 @@ input{
   border: 3px solid #a4c5f7;
   padding: 10px 5px;
   margin-right: 20px;
-  }
-  button{
-    background: #fff;
-    color: #00a050;
-    border: none;
-    border-radius: 8px;
-    padding: 10px;
-    font-size: 20px;
-    cursor: pointer;
-    width: 100px;;
-  }
-  ul{
-    list-style: none;/**quita los puntos de la lista que teine por defecto */
-    margin-top: 30px;
-  }
-  li{
-    background: #b8d5ff;
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    color: #333;
-    font-size: 20px;
-  }
+}
+button {
+  background: #fff;
+  color: #00a050;
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 20px;
+  cursor: pointer;
+  width: 100px;
+}
+
+table {
+  margin-top: 25px;
+  border-collapse: separate;
+  overflow: hidden;
+}
+tbody,th,
+td {
+  margin-top: 15px;
+  border-bottom: 1px solid #0073a0;
+  padding: 10px;
+  width: 150px;
+}
+
+tr:nth-child(even) {
+  background-color: #b8d5ff;
+}
+
+thead{
+  background-color: #0073a0;
+  color: white;
+}
+
 </style>
